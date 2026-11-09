@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const senha = inputSenha.value;
 
         try {
-            const response = await fetch('http://localhost:3000/auth/login', {
+           const response = await fetch('https://onrender.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: id, senha: senha })
