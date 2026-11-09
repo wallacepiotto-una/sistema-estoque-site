@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function carregarIngredientes() {
         try {
-            const response = await fetch('http://localhost:3000/api/ingredientes');
+            const response = await fetch('https://onrender.com/api/ingredientes');
             const dados = await response.json();
 
             mainTableBody.innerHTML = '';
