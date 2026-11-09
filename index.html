@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_index.css">
+    <title>Salgaderia Gorita - Estoque</title>
+</head>
+
+<body>
+    <header>
+        <h1>Estoque</h1>
+        <p>Confira a quantidade de cada ingrediente em nosso estoque</p>
+    </header>
+    
+    <div class="search">
+        <label>Ingrediente:</label>
+        <input type="text" id="searchInput" placeholder="Buscar Ingrediente" name="busca">
+    </div>
+
+    <!-- Tabela de Alerta -->
+    <div id="TabelaAlerta" style="display: none;">
+        <h2 class="alert-title">⚠️ Estoque Baixo</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Quantidade em Estoque</th>
+                    <th>Unidade</th>
+                </tr>
+            </thead>
+            <tbody id="alertTableBody"></tbody>
+        </table>
+    </div>
+
+    <div id="Tabelas">
+        <h2>Tabela de ingredientes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Quantidade em Estoque</th>
+                    <th>Unidade</th>
+                </tr>
+            </thead>
+            <tbody id="mainTableBody"></tbody>
+        </table>
+        
+        <div id="noResultsMsg" style="display: none;">
+            Nenhum resultado encontrado.
+        </div>
+    </div>
+    
+    <div class="menu">
+        <img src="./Assets/Logo.jpeg" alt="Logo">
+        <button id="btnHome">Estoque</button>
+        <!-- Botão visível apenas para administradores -->
+        <button id="btnGerenciar" style="display: none;">Gerenciar</button>
+        <button id="btnSair">Sair</button>
+        <h2>Qualidade e sabor <u>em cada detalhe</u></h2>
+    </div>
+    
+    <div class="funcionario">
+        <p id="nomeFuncionario">Carregando...</p>
+    </div>
+
+    <script src="script_index.js"></script>
+</body>
+</html>

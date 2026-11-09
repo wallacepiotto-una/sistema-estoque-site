@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_login.css">
+    <title>Login</title>
+</head>
+<body>
+    <img src="./Assets/Logo.jpeg" alt="logo">
+    <h1>Seja Bem Vindo</h1>
+    
+    <form id="loginForm">
+        
+        <!-- Mensagem de erro oculta por padrão -->
+        <p id="errorMessage" class="error-text">ID ou senhas incorretos</p>
+
+        <div class="formGroup">
+            <label>Id:</label>
+            <input type="text" id="inputId" placeholder="ID do Funcionário" name="id" required>
+        </div>
+        <div class="formGroup">
+            <label>Senha:</label>
+            <input type="password" id="inputSenha" placeholder="Senha" name="senha" required>
+        </div>
+        <div class="formGroup">
+            <button type="submit">Entrar</button>
+        </div>
+        <p>Acesso Restrito a Funcionários</p>
+    </form>
+
+    <!-- Link para o arquivo JavaScript -->
+    <script src="script_login.js"></script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+/* Importação das fontes */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: white;
+    min-height: 100vh;
+    padding: 50px 50px 50px 300px; /* O padding de 300px na esquerda cria o espaço do menu lateral */
+    position: relative;
+    background-color: #a81015; /* Cor de fundo caso a imagem não carregue */
+    
+    background-image: url('./Assets/Fundo.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* ================================
+   MENU LATERAL (Sidebar)
+   ================================ */
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #7a0305; /* Vermelho escuro do menu */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    z-index: 10; /* Garante que fique acima do fundo */
+}
+
+.menu img {
+    width: 80%;
+    margin-bottom: 50px;
+}
+
+.menu button {
+    width: 85%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s;
+}
+
+/* Botão "Estoque" */
+.menu button:nth-of-type(1) {
+    background-color: #fbc02d; /* Amarelo */
+    color: #6d0607;
+}
+
+.menu button:nth-of-type(1)::before {
+    content: ''; 
+    display: inline-block;
+    width: 24px; height: 24px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236d0607" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>') no-repeat center;
+    background-size: contain;
+}
+
+/* Botão "Sair" */
+.menu button:nth-of-type(2) {
+    background-color: transparent;
+    color: white;
+}
+
+.menu button:nth-of-type(2)::before {
+    content: ''; 
+    display: inline-block;
+    width: 24px; height: 24px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>') no-repeat center;
+    background-size: contain;
+}
+
+/* Frase Decorativa no rodapé do menu */
+.menu h2 {
+    margin-top: auto;
+    margin-bottom: 60px;
+    font-family: 'Caveat', cursive;
+    color: #fbc02d;
+    font-size: 2.2rem;
+    transform: rotate(-10deg); /* Inclinação do texto */
+    text-align: center;
+    line-height: 1.1;
+    padding: 0 20px;
+}
+
+/* Quebra a linha e remove o sublinhado padrão do <u> */
+.menu h2 u {
+    display: block; 
+}
+
+/* ================================
+   CABEÇALHO DA PÁGINA E USUÁRIO
+   ================================ */
+header {
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #fbc02d;
+    font-size: 2.8rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+/* Ícone de caixa amarela ao lado do H1 via CSS */
+header h1::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 40px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23fbc02d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>') no-repeat center;
+    background-size: contain;
+}
+
+header p {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Caixa "Funcionário" no canto superior direito */
+.funcionario {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
+.funcionario p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* Ícone de usuário e setinha */
+.funcionario p::before {
+    content: '';
+    width: 20px; height: 20px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>') no-repeat center;
+}
+.funcionario p::after {
+    content: '';
+    width: 16px; height: 16px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>') no-repeat center;
+}
+
+/* ================================
+   BARRA DE PESQUISA
+   ================================ */
+.search {
+    margin-bottom: 30px;
+}
+
+.search label {
+    display: none;
+}
+
+.search input {
+    width: 100%;
+    padding: 16px 20px 16px 55px; /* Espaço na esquerda para a lupa */
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    font-family: 'Nunito', sans-serif;
+    background-color: #fbf5ec; /* Bege claro */
+    color: #333;
+    outline: none;
+    
+    /* Ícone de Lupa */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23555" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    background-size: 22px;
+}
+
+/* ================================
+   TABELA
+   ================================ */
+#Tabelas h2 {
+    display: none;
+}
+
+#Tabelas {
+    background-color: white;
+    border-radius: 16px; /* Borda arredondada externa da tabela */
+    overflow: hidden; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #333;
+}
+
+th, td {
+    padding: 18px 30px;
+    text-align: left;
+}
+
+thead tr {
+    background-color: #fbc02d;
+    color: #6d0607;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+tbody tr {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Linhas alternadas em cor rosa/bege claro */
+tbody tr:nth-child(even) {
+    background-color: #fdf5f3; 
+}
+
+/* Adicionando um ícone genérico de ingrediente e seta nas linhas */
+tbody td:first-child {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 500;
+}
+
+tbody td:first-child::before {
+    content: '';
+    display: inline-block;
+    width: 22px; height: 22px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236d0607" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>') no-repeat center;
+    background-size: contain;
+}
+
+/* Setinha preta no final da linha (Chevron) */
+tbody td:last-child {
+    position: relative;
+    padding-right: 50px;
+}
+
+tbody td:last-child::after {
+    content: '';
+    position: absolute;
+    right: 30px; 
+    top: 50%; 
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>') no-repeat center;
+    background-size: contain;
+}
+/* Tabela de Alerta */
+#TabelaAlerta {
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+    border: 2px solid #d32f2f;
+}
+
+.alert-title {
+    display: block !important; /* Força a exibição, sobrepondo a regra anterior se houver */
+    background-color: #d32f2f;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+}
+
+#TabelaAlerta thead tr {
+    background-color: #ffebee; /* Fundo vermelho claro para o cabeçalho do alerta */
+    color: #c62828;
+}
+
+/* Indicador visual de que a célula é editável */
+.editable-qty {
+    cursor: text;
+    border-bottom: 1px dashed #ccc;
+    transition: background-color 0.2s;
+}
+
+.editable-qty:focus {
+    background-color: #fff9c4; /* Fundo amarelo claro ao editar */
+    outline: none;
+    border-bottom: 2px solid #fbc02d;
+}
+
+/* Mensagem de nenhum resultado */
+#noResultsMsg {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+    font-size: 1.2rem;
+    background-color: white;
+}
+/* ========================================================
+   RESPONSIVIDADE: TABLETS, SMARTPHONES E TELAS PEQUENAS
+   ======================================================== */
+
+/* 1. TABLETS (Telas até 1024px) */
+@media screen and (max-width: 1024px) {
+    body {
+        /* Reduz o espaço reservado para o menu na esquerda */
+        padding: 40px 30px 40px 250px;
+    }
+
+    .menu {
+        width: 220px;
+    }
+
+    .menu h2 {
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+    }
+
+    .funcionario {
+        top: 40px;
+        right: 30px;
+    }
+}
+
+/* 2. SMARTPHONES E TABLETS MENORES (Telas até 768px) */
+@media screen and (max-width: 768px) {
+    body {
+        /* Remove o padding lateral gigante e adiciona espaço no fundo para o menu mobile */
+        padding: 80px 15px 100px 15px; 
+    }
+
+    /* O menu lateral se transforma em uma barra de navegação inferior */
+    .menu {
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: 75px;
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+        padding: 0 15px;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.3);
+    }
+
+    /* Oculta a logo e o texto decorativo no mobile para focar apenas nos botões */
+    .menu img, .menu h2 {
+        display: none; 
+    }
+
+    .menu button {
+        width: 100%;
+        flex: 1; /* Faz os botões dividirem o espaço igualmente */
+        margin-bottom: 0;
+        justify-content: center;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    /* Ajuste da posição do nome do funcionário */
+    .funcionario {
+        top: 20px;
+        right: 15px;
+    }
+    
+    .funcionario p {
+        font-size: 0.95rem;
+    }
+
+    /* Ajuste dos títulos do cabeçalho */
+    header h1 {
+        font-size: 2.2rem;
+        margin-top: 10px;
+    }
+    
+    header p {
+        font-size: 0.95rem;
+    }
+
+    /* Ajustes da barra de pesquisa */
+    .search input {
+        padding: 14px 15px 14px 45px;
+        font-size: 1rem;
+        background-position: 15px center;
+    }
+
+    /* Ajustes nas tabelas para caberem na tela sem quebrar */
+    #Tabelas, #TabelaAlerta {
+        /* Permite rolar a tabela para o lado se a tela for menor que o conteúdo */
+        overflow-x: auto; 
+    }
+
+    th, td {
+        padding: 14px 15px; /* Reduz o espaçamento interno das células */
+        font-size: 0.95rem;
+        white-space: nowrap; /* Impede que o texto quebre em várias linhas e desconfigure a tabela */
+    }
+
+    /* Ajuste da setinha final da tabela para telas menores */
+    tbody td:last-child {
+        padding-right: 35px;
+    }
+    
+    tbody td:last-child::after {
+        right: 15px;
+    }
+}
+
+/* 3. CELULARES MUITO PEQUENOS (Telas até 480px) */
+@media screen and (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    header h1::before {
+        width: 30px; height: 30px;
+    }
+
+    /* Diminui levemente os botões do menu inferior */
+    .menu button {
+        font-size: 0.9rem;
+        gap: 8px;
+    }
+
+    .menu button::before {
+        width: 18px; height: 18px;
+    }
+    /* Ícone do Botão Gerenciar */
+.menu button#btnGerenciar::before {
+    content: ''; 
+    display: inline-block;
+    width: 24px; height: 24px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>') no-repeat center;
+    background-size: contain;
+}
+
+.menu button#btnGerenciar {
+    background-color: transparent;
+    color: white;
+}
+
+/* Estado Ativo no Menu Lateral */
+.menu button.active-btn {
+    background-color: #fbc02d !important;
+    color: #6d0607 !important;
+}
+
+.menu button.active-btn::before {
+    filter: invert(15%) sepia(95%) saturate(3000%) hue-rotate(345deg);
+}
+
+/* Formulário de Cadastro de Ingredientes */
+.form-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 16px;
+    color: #333;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #6d0607;
+    font-size: 1.4rem;
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 15px;
+    align-items: center;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-field input:focus {
+    border-color: #fbc02d;
+}
+
+.btn-primary {
+    background-color: #6d0607;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #a81015;
+}
+
+/* Botão de Excluir Ingrediente */
+.btn-delete {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Nunito', sans-serif;
+    transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #b71c1c;
+}
+
+/* Responsividade do Formulário */
+@media screen and (max-width: 900px) {
+    .grid-form {
+        grid-template-columns: 1fr;
+    }
+}
+}

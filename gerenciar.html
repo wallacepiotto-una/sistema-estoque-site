@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_index.css">
+    <title>Salgaderia Gorita - Gerenciar Ingredientes</title>
+</head>
+<body>
+    <header>
+        <h1>Gerenciar Ingredientes</h1>
+        <p>Adicione novos ingredientes ou remova itens obsoletos do sistema</p>
+    </header>
+
+    <!-- Formulário para Adicionar Ingrediente -->
+    <div class="form-container">
+        <h2>Cadastrar Novo Ingrediente</h2>
+        <form id="addIngredientForm" class="grid-form">
+            <div class="input-field">
+                <input type="text" id="inputNmIngrediente" placeholder="Nome do Ingrediente" required>
+            </div>
+            <div class="input-field">
+                <input type="number" id="inputQntdAtual" placeholder="Quantidade Inicial" min="0" required>
+            </div>
+            <div class="input-field">
+                <input type="number" id="inputQntdMinima" placeholder="Qtd. Mínima (Alerta)" min="0" value="5" required>
+            </div>
+            <div class="input-field">
+                <input type="number" id="inputQntdMaxima" placeholder="Qtd. Máxima" min="0" value="100" required>
+            </div>
+            <button type="submit" class="btn-primary">+ Adicionar Ingrediente</button>
+        </form>
+    </div>
+
+    <!-- Tabela para Listar e Remover Ingredientes -->
+    <div id="Tabelas" style="margin-top: 30px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Ingrediente</th>
+                    <th>Quantidade Atual</th>
+                    <th>Mín / Máx</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="manageTableBody">
+                <!-- Preenchido via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="menu">
+        <img src="./Assets/Logo.jpeg" alt="Logo">
+        <button id="btnHome">Estoque</button>
+        <button id="btnGerenciar" class="active-btn">Gerenciar</button>
+        <button id="btnSair">Sair</button>
+        <h2>Qualidade e sabor <u>em cada detalhe</u></h2>
+    </div>
+
+    <div class="funcionario">
+        <p id="nomeFuncionario">Carregando...</p>
+    </div>
+
+    <script src="script_gerenciar.js"></script>
+</body>
+</html>

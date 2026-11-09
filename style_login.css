@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #a81015; 
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: white;
+}
+
+img {
+    max-width: 250px;
+    margin-bottom: 5px;
+}
+
+/* Título (Seja Bem Vindo) */
+h1 {
+    font-family: 'Caveat', cursive; /* Fonte que simula escrita à mão */
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+/* Caixa do Formulário (Fundo mais escuro) */
+form {
+    background-color: #6d0607; 
+    padding: 40px 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    width: 100%;
+}
+
+.formGroup label {
+    display: none;
+}
+
+/* Estilização dos campos de texto (Input) */
+.formGroup input {
+    width: 100%;
+    padding: 16px 20px 16px 45px; /* O padding maior na esquerda abre espaço para o ícone */
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: #333;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+}
+
+.formGroup input::placeholder {
+    color: #777;
+    font-weight: 500;
+}
+
+/* Adicionando o ícone de Usuário no campo ID via CSS (Sem alterar HTML) */
+input[name="id"] {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236d0607" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>');
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-size: 20px;
+}
+
+/* Adicionando os ícones de Cadeado e Olho no campo de Senha via CSS */
+input[name="senha"] {
+    background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236d0607" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>'),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>');
+    background-repeat: no-repeat, no-repeat;
+    background-position: 15px center, calc(100% - 15px) center;
+    background-size: 20px, 20px;
+    padding-right: 45px; /* Espaço para o ícone de olho na direita */
+}
+
+/* Botão de Entrar */
+.formGroup button {
+    width: 100%;
+    padding: 16px;
+    background-color: #fbc02d; /* Amarelo */
+    color: #6d0607; /* Vermelho escuro */
+    border: none;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.formGroup button:hover {
+    background-color: #f9a825;
+}
+
+/* Texto de rodapé (Acesso restrito) */
+form p {
+    font-size: 0.85rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Ícone de cadeadinho pequeno ao lado do texto de rodapé */
+form p::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.error-text {
+    display: none; /* Oculto por padrão */
+    color: #ff6b6b; /* Vermelho claro para contrastar com o fundo escuro do form */
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: -5px; 
+    margin-top: -10px;
+}
+/* ================================
+   RESPONSIVIDADE: TELAS ATÉ 420x900
+   ================================ */
+@media screen and (max-width: 420px) and (max-height: 900px) {
+    
+    body {
+        /* Adiciona um pequeno padding nas bordas da tela para o form não colar nos cantos */
+        padding: 20px;
+    }
+
+    img {
+        /* Reduz um pouco a logo para economizar espaço vertical */
+        max-width: 200px;
+        margin-bottom: 0px;
+    }
+
+    h1 {
+        /* Diminui o título para evitar que quebre em duas linhas */
+        font-size: 2.3rem; 
+        margin-bottom: 20px;
+    }
+
+    form {
+        /* Em telas menores, o form ocupa o máximo de largura possível com um padding interno reduzido */
+        width: 100%; 
+        padding: 30px 20px; 
+        gap: 15px; 
+    }
+
+    .formGroup input {
+        /* Ajusta o tamanho da área de digitação e fonte */
+        padding: 14px 15px 14px 40px; 
+        font-size: 0.95rem;
+    }
+
+    /* Reposiciona levemente os ícones dos inputs para acompanhar o novo tamanho */
+    input[name="id"] {
+        background-position: 12px center;
+        background-size: 18px;
+    }
+
+    input[name="senha"] {
+        background-position: 12px center, calc(100% - 12px) center;
+        background-size: 18px, 18px;
+        padding-right: 40px; 
+    }
+
+    .formGroup button {
+        /* Ajusta o botão para acompanhar a proporção dos inputs */
+        padding: 14px;
+        font-size: 1.1rem;
+        margin-top: 5px;
+    }
+
+    form p {
+        font-size: 0.8rem;
+    }
+}
