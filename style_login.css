@@ -197,3 +197,13 @@ form p::before {
         font-size: 0.8rem;
     }
 }
+
+/* Esconde a mensagem de erro por padrão e define a cor vermelha */
+.error-text {
+    display: none;
+    color: #e74c3c;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
