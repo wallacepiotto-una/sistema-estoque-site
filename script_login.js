@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     try {
         // Lembre-se de substituir pela URL exata do seu backend no Render
-        const response = await fetch('https://SEU-BACKEND-NO-RENDER.onrender.com/login', {
+        const response = await fetch('https://sistema-estoque-api-54tf.onrender.com', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
