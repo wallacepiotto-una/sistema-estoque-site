@@ -1,8 +1,17 @@
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const loginInput = document.getElementById('login').value;
-    const senhaInput = document.getElementById('senha').value;
+    const inputLogin = document.getElementById('login');
+    const inputSenha = document.getElementById('senha');
+
+    // Validação de segurança para evitar o erro 'reading value of null'
+    if (!inputLogin || !inputSenha) {
+        alert('Erro: Campos de login ou senha não foram encontrados na página HTML.');
+        return;
+    }
+
+    const loginValue = inputLogin.value;
+    const senhaValue = inputSenha.value;
 
     try {
         const response = await fetch('https://sistema-estoque-api-54tf.onrender.com/login', {
@@ -11,8 +20,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 
-                login: loginInput, 
-                senha: senhaInput 
+                login: loginValue, 
+                senha: senhaValue 
             })
         });
 
