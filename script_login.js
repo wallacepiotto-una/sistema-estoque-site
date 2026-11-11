@@ -1,13 +1,14 @@
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const inputLogin = document.getElementById('login');
-    const inputSenha = document.getElementById('senha');
+    //IDs correspondentes ao seu login.html (inputId e inputSenha)
+    const inputLogin = document.getElementById('inputId');
+    const inputSenha = document.getElementById('inputSenha');
+    const errorMessage = document.getElementById('errorMessage');
 
-    // Validação de segurança para evitar o erro 'reading value of null'
-    if (!inputLogin || !inputSenha) {
-        alert('Erro: Campos de login ou senha não foram encontrados na página HTML.');
-        return;
+    // Oculta a mensagem de erro ao tentar novamente
+    if (errorMessage) {
+        errorMessage.style.display = 'none';
     }
 
     const loginValue = inputLogin.value;
@@ -28,14 +29,27 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const data = await response.json();
 
         if (response.ok) {
+            // Salva os dados do usuário no localStorage (incluindo se é admin)
             localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-            alert(`Bem-vindo, ${data.usuario.nome}!`);
+            
+            // Redireciona para a página de gerenciamento do estoque
             window.location.href = 'gerenciar.html';
         } else {
-            alert(data.error || 'Falha ao realizar login.');
+            // Exibe mensagem no parágrafo de erro do HTML ou via alert
+            if (errorMessage) {
+                errorMessage.textContent = data.error || 'ID ou senha incorretos';
+                errorMessage.style.display = 'block';
+            } else {
+                alert(data.error || 'ID ou senha incorretos');
+            }
         }
     } catch (error) {
         console.error('Erro de conexão:', error);
-        alert('Erro ao conectar com o servidor.');
+        if (errorMessage) {
+            errorMessage.textContent = 'Erro ao conectar com o servidor. Aguarde alguns segundos e tente novamente.';
+            errorMessage.style.display = 'block';
+        } else {
+            alert('Erro ao conectar com o servidor.');
+        }
     }
 });
