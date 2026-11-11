@@ -1,35 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    const inputId = document.getElementById('inputId');
-    const inputSenha = document.getElementById('inputSenha');
-    const errorMessage = document.getElementById('errorMessage');
+// script_login.js
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        errorMessage.style.display = 'none';
+    const loginInput = document.getElementById('username').value;
+    const senhaInput = document.getElementById('password').value;
 
-        const id = inputId.value;
-        const senha = inputSenha.value;
+    try {
+        const response = await fetch('https://SEU-BACKEND-NO-RENDER.onrender.com/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                login: loginInput, 
+                senha: senhaInput 
+            })
+        });
 
-        try {
-           const response = await fetch('https://onrender.com', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id, senha: senha })
-            });
+        const data = await response.json();
 
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('userName', data.nome);
-                // Salva a permissão do usuário
-                localStorage.setItem('isAdmin', data.is_admin ? 'true' : 'false');
-                window.location.href = 'index.html';
-            } else {
-                errorMessage.style.display = 'block';
-            }
-        } catch (error) {
-            console.error('Erro de conexão com a API:', error);
-            errorMessage.style.display = 'block';
+        if (response.ok) {
+            // Guarda a sessão do usuário no navegador
+            localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+            
+            alert(`Bem-vindo, ${data.usuario.nome}!`);
+            window.location.href = 'gerenciar.html';
+        } else {
+            alert(data.error || 'Falha ao realizar login.');
         }
-    });
+    } catch (error) {
+        console.error('Erro de conexão:', error);
+        alert('Erro ao conectar com o servidor.');
+    }
 });
