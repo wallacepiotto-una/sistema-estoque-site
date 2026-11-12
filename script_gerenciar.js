@@ -11,9 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
   if (form) form.addEventListener('submit', cadastrarIngrediente);
 });
 
+// Função auxiliar para ler o usuário independente de como foi salvo no login
+function obterNomeUsuario() {
+  const direto = localStorage.getItem('usuario');
+  if (direto) return direto;
+
+  const objJson = localStorage.getItem('usuarioLogado');
+  if (objJson) {
+    try {
+      const parsed = JSON.parse(objJson);
+      return typeof parsed === 'string' ? parsed : (parsed.login || parsed.nome || 'Admin');
+    } catch {
+      return objJson;
+    }
+  }
+  return null;
+}
+
 // 1. Garantir que o utilizador está autenticado
 function validarSessao() {
-  const usuario = localStorage.getItem('usuario');
+  const usuario = obterNomeUsuario();
   if (!usuario) {
     window.location.href = 'login.html';
   }
@@ -35,7 +52,7 @@ function configurarMenuLateral() {
   // Botão "Gerenciar" -> Permite acesso apenas se for utilizador 'admin'
   if (btnGerenciar) {
     btnGerenciar.addEventListener('click', () => {
-      const usuarioLogado = (localStorage.getItem('usuario') || '').toLowerCase();
+      const usuarioLogado = (obterNomeUsuario() || '').toLowerCase();
 
       if (usuarioLogado === 'admin') {
         window.location.href = 'gerenciar.html';
@@ -50,6 +67,7 @@ function configurarMenuLateral() {
     btnSair.addEventListener('click', (e) => {
       e.preventDefault();
       localStorage.removeItem('usuario');
+      localStorage.removeItem('usuarioLogado');
       localStorage.clear();
       window.location.href = 'login.html';
     });
@@ -58,7 +76,7 @@ function configurarMenuLateral() {
 
 // 3. Mostrar o nome do utilizador logado
 function carregarUsuario() {
-  const usuario = localStorage.getItem('usuario') || 'Admin';
+  const usuario = obterNomeUsuario() || 'Admin';
   const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
   
   if (elementoUser) {
