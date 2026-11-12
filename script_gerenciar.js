@@ -35,3 +35,68 @@ function verificarAlertasEstoque(ingredientes) {
         }
     });
 }
+
+const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
+
+document.addEventListener('DOMContentLoaded', () => {
+  carregarUsuario();
+  carregarIngredientes();
+});
+
+// 1. Atualizar nome no Header (substitui "Carregando...")
+function carregarUsuario() {
+  const usuarioLogado = localStorage.getItem('usuario') || 'Admin';
+  const elementoUser = document.querySelector('.user-profile span, #nome-usuario');
+  if (elementoUser) {
+    elementoUser.textContent = `👤 ${usuarioLogado}`;
+  }
+}
+
+// 2. Procurar ingredientes no Backend e preencher a tabela
+async function carregarIngredientes() {
+  const tbody = document.querySelector('table tbody, #tabela-ingredientes');
+  if (!tbody) return;
+
+  try {
+    const response = await fetch(`${API_URL}/ingredientes`);
+    
+    if (!response.ok) {
+      throw new Error('Falha ao procurar ingredientes');
+    }
+
+    const ingredientes = await response.json();
+
+    if (ingredientes.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+            Nenhum ingrediente cadastrado ainda.
+          </td>
+        </tr>`;
+      return;
+    }
+
+    tbody.innerHTML = ingredientes.map(item => `
+      <tr>
+        <td>#${item.id || item.codigo}</td>
+        <td><strong>${item.nome}</strong></td>
+        <td>${item.quantidade}</td>
+        <td>${item.minimo} / ${item.maximo}</td>
+        <td>
+          <button onclick="deletarIngrediente(${item.id})" style="border:none; background:none; cursor:pointer; color:red;">
+            🗑️
+          </button>
+        </td>
+      </tr>
+    `).join('');
+
+  } catch (error) {
+    console.error('Erro ao carregar tabela:', error);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align: center; color: red; padding: 20px;">
+          Erro ao carregar lista de ingredientes.
+        </td>
+      </tr>`;
+  }
+}
