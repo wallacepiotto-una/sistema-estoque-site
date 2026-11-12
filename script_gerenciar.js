@@ -6,18 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarIngredientes();
   configurarMenuLateral();
 
-  // Escutar o envio do formulário de cadastro
   const form = document.getElementById('form-cadastrar');
   if (form) form.addEventListener('submit', cadastrarIngrediente);
 });
 
-// Função auxiliar para ler o usuário independente de como foi salvo no login
+// Lê o usuário da URL (no primeiro acesso) ou do localStorage
 function obterNomeUsuario() {
+  const params = new URLSearchParams(window.location.search);
+  const userUrl = params.get('u');
+  if (userUrl) {
+    localStorage.setItem('usuario', userUrl);
+    return userUrl;
+  }
+
   const direto = localStorage.getItem('usuario');
-  if (direto) return direto;
+  if (direto && direto !== 'undefined' && direto !== 'null') return direto;
 
   const objJson = localStorage.getItem('usuarioLogado');
-  if (objJson) {
+  if (objJson && objJson !== 'undefined' && objJson !== 'null') {
     try {
       const parsed = JSON.parse(objJson);
       return typeof parsed === 'string' ? parsed : (parsed.login || parsed.nome || 'Admin');
@@ -25,10 +31,11 @@ function obterNomeUsuario() {
       return objJson;
     }
   }
+
   return null;
 }
 
-// 1. Garantir que o utilizador está autenticado
+// 1. Validar se o usuário está autenticado
 function validarSessao() {
   const usuario = obterNomeUsuario();
   if (!usuario) {
@@ -36,24 +43,30 @@ function validarSessao() {
   }
 }
 
-// 2. Configurar cliques nos botões do Menu Lateral
+// 2. Mostrar o nome do usuário no canto superior direito
+function carregarUsuario() {
+  const usuario = obterNomeUsuario() || 'Admin';
+  const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
+  if (elementoUser) {
+    elementoUser.textContent = usuario;
+  }
+}
+
+// 3. Configurar botões do menu lateral
 function configurarMenuLateral() {
   const btnHome = document.getElementById('btnHome');
   const btnGerenciar = document.getElementById('btnGerenciar');
   const btnSair = document.getElementById('btnSair');
 
-  // Botão "Estoque" -> Leva para a página principal de consulta de estoque
   if (btnHome) {
     btnHome.addEventListener('click', () => {
       window.location.href = 'index.html';
     });
   }
 
-  // Botão "Gerenciar" -> Permite acesso apenas se for utilizador 'admin'
   if (btnGerenciar) {
     btnGerenciar.addEventListener('click', () => {
       const usuarioLogado = (obterNomeUsuario() || '').toLowerCase();
-
       if (usuarioLogado === 'admin') {
         window.location.href = 'gerenciar.html';
       } else {
@@ -62,29 +75,16 @@ function configurarMenuLateral() {
     });
   }
 
-  // Botão "Sair" -> Limpa a sessão no navegador e redireciona para o login
   if (btnSair) {
     btnSair.addEventListener('click', (e) => {
       e.preventDefault();
-      localStorage.removeItem('usuario');
-      localStorage.removeItem('usuarioLogado');
       localStorage.clear();
       window.location.href = 'login.html';
     });
   }
 }
 
-// 3. Mostrar o nome do utilizador logado
-function carregarUsuario() {
-  const usuario = obterNomeUsuario() || 'Admin';
-  const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
-  
-  if (elementoUser) {
-    elementoUser.textContent = usuario;
-  }
-}
-
-// 4. Buscar e listar ingredientes da API
+// 4. Buscar e listar ingredientes
 async function carregarIngredientes() {
   const tbody = document.getElementById('manageTableBody') || document.querySelector('table tbody');
   if (!tbody) return;
@@ -128,7 +128,7 @@ async function carregarIngredientes() {
   }
 }
 
-// 5. Cadastrar Novo Ingrediente (POST)
+// 5. Cadastrar Novo Ingrediente
 async function cadastrarIngrediente(e) {
   e.preventDefault();
 
@@ -158,7 +158,7 @@ async function cadastrarIngrediente(e) {
   }
 }
 
-// 6. Excluir Ingrediente (DELETE)
+// 6. Excluir Ingrediente
 async function deletarIngrediente(id) {
   if (!confirm('Tem certeza que deseja remover este ingrediente do sistema?')) return;
 
