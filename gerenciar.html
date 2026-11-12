@@ -8,55 +8,59 @@
     <title>Salgaderia Gorita - Gerenciar Ingredientes</title>
 </head>
 <body>
-    <header>
-        <h1>Gerenciar Ingredientes</h1>
-        <p>Adicione novos ingredientes ou remova itens obsoletos do sistema</p>
+    <!-- Header com título e Perfil do Usuário no topo -->
+    <header style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Gerenciar Ingredientes</h1>
+            <p>Adicione novos ingredientes ou remova itens obsoletos do sistema</p>
+        </div>
+        <div class="user-profile">
+            <span>👤 <strong id="nome-usuario">Carregando...</strong></span>
+        </div>
     </header>
 
     <!-- Formulário para Adicionar Ingrediente -->
-    
-<div class="card-formulario">
-  <h2>Cadastrar Novo Ingrediente</h2>
-  <form id="form-cadastrar">
-    
-    <div class="form-row">
-      <div class="form-group" style="flex: 2;">
-        <label for="nome">Nome do Ingrediente</label>
-        <input type="text" id="nome" placeholder="Ex: Farinha de Trigo" required>
-      </div>
-      
-      <div class="form-group" style="flex: 1;">
-        <label for="unidade">Unidade de Medida</label>
-        <select id="unidade" required>
-          <option value="kg">Quilogramas (kg)</option>
-          <option value="g">Gramas (g)</option>
-          <option value="L">Litros (L)</option>
-          <option value="ml">Mililitros (ml)</option>
-          <option value="un">Unidade (un)</option>
-        </select>
-      </div>
+    <div class="card-formulario">
+        <h2>Cadastrar Novo Ingrediente</h2>
+        <form id="form-cadastrar">
+            <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                    <label for="nome">Nome do Ingrediente</label>
+                    <input type="text" id="nome" placeholder="Ex: Farinha de Trigo" required>
+                </div>
+                
+                <div class="form-group" style="flex: 1;">
+                    <label for="unidade">Unidade de Medida</label>
+                    <select id="unidade" required>
+                        <option value="kg">Quilogramas (kg)</option>
+                        <option value="g">Gramas (g)</option>
+                        <option value="L">Litros (L)</option>
+                        <option value="ml">Mililitros (ml)</option>
+                        <option value="un">Unidade (un)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="quantidade">Quantidade Inicial</label>
+                    <input type="number" id="quantidade" placeholder="0" step="0.01" required min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="min">Estoque Mínimo</label>
+                    <input type="number" id="min" placeholder="0" step="0.01" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="max">Estoque Máximo</label>
+                    <input type="number" id="max" placeholder="100" step="0.01" required min="0">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-adicionar">+ Adicionar Ingrediente</button>
+        </form>
     </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label for="quantidade">Quantidade Inicial</label>
-        <input type="number" id="quantidade" placeholder="0" step="0.01" required min="0">
-      </div>
-      
-      <div class="form-group">
-        <label for="min">Estoque Mínimo</label>
-        <input type="number" id="min" placeholder="0" step="0.01" required min="0">
-      </div>
-
-      <div class="form-group">
-        <label for="max">Estoque Máximo</label>
-        <input type="number" id="max" placeholder="100" step="0.01" required min="0">
-      </div>
-    </div>
-
-    <button type="submit" class="btn-adicionar">+ Adicionar Ingrediente</button>
-  </form>
-</div>
 
     <!-- Tabela para Listar e Remover Ingredientes -->
     <div id="Tabelas" style="margin-top: 30px;">
@@ -76,6 +80,7 @@
         </table>
     </div>
 
+    <!-- Menu Lateral -->
     <div class="menu">
         <img src="./Assets/Logo.jpeg" alt="Logo">
         <button id="btnHome">Estoque</button>
@@ -84,15 +89,6 @@
         <h2>Qualidade e sabor <u>em cada detalhe</u></h2>
     </div>
 
-    <div class="funcionario">
-        <p id="nomeFuncionario">Carregando...</p>
-    </div>
-
     <script src="script_gerenciar.js"></script>
 </body>
 </html>
-
-<!-- Exemplo de como deve ficar no HTML -->
-<div class="user-profile">
-  <span>👤 <strong id="nome-usuario">Carregando...</strong></span>
-</div>
