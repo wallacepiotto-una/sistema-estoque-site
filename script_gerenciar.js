@@ -8,8 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-cadastrar');
   if (form) form.addEventListener('submit', cadastrarIngrediente);
 
+  // Navegação: Botão Estoque no menu lateral
+  const btnHome = document.getElementById('btnHome');
+  if (btnHome) {
+    btnHome.addEventListener('click', () => {
+      window.location.href = 'index.html'; // Redireciona para a tela de estoque
+    });
+  }
+
   // Escutar o botão Sair
-  const btnSair = document.querySelector('.btn-sair') || document.getElementById('btn-sair');
+  const btnSair = document.getElementById('btnSair');
   if (btnSair) {
     btnSair.addEventListener('click', (e) => {
       e.preventDefault();
@@ -19,10 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// 1. Mostrar o nome de quem logou no topo
+// 1. Mostrar o nome de quem logou no canto superior direito
 function carregarUsuario() {
   const usuario = localStorage.getItem('usuario') || 'Admin';
-  const elementoUser = document.getElementById('nome-usuario');
+  const elementoUser = document.getElementById('nomeFuncionario');
+  
   if (elementoUser) {
     elementoUser.textContent = usuario;
   }
@@ -30,7 +39,7 @@ function carregarUsuario() {
 
 // 2. Buscar ingredientes do Supabase/Render
 async function carregarIngredientes() {
-  const tbody = document.querySelector('table tbody');
+  const tbody = document.getElementById('manageTableBody') || document.querySelector('table tbody');
   if (!tbody) return;
 
   try {
@@ -55,7 +64,7 @@ async function carregarIngredientes() {
         <td>${item.quantidade} ${item.unidade || 'un'}</td>
         <td>${item.minimo} / ${item.maximo} ${item.unidade || 'un'}</td>
         <td>
-          <button onclick="deletarIngrediente(${item.id})" style="border:none; background:none; cursor:pointer; font-size:1.1rem;" title="Excluir">
+          <button onclick="deletarIngrediente(${item.id})" style="border:none; background:none; cursor:pointer; font-size:1.1rem;" title="Excluir Ingrediente">
             🗑️
           </button>
         </td>
@@ -63,7 +72,7 @@ async function carregarIngredientes() {
     `).join('');
 
   } catch (error) {
-    console.error('Erro:', error);
+    console.error('Erro ao carregar lista:', error);
     tbody.innerHTML = `
       <tr>
         <td colspan="5" style="text-align: center; color: red; padding: 20px;">
@@ -97,6 +106,25 @@ async function cadastrarIngrediente(e) {
       carregarIngredientes(); // Atualiza a tabela imediatamente
     } else {
       alert('Erro ao cadastrar ingrediente.');
+    }
+  } catch (error) {
+    alert('Erro de conexão com o servidor.');
+  }
+}
+
+// 4. Excluir Ingrediente (DELETE)
+async function deletarIngrediente(id) {
+  if (!confirm('Tem certeza que deseja remover este ingrediente do sistema?')) return;
+
+  try {
+    const response = await fetch(`${API_URL}/ingredientes/${id}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      carregarIngredientes(); // Recarrega a tabela após excluir
+    } else {
+      alert('Erro ao excluir ingrediente.');
     }
   } catch (error) {
     alert('Erro de conexão com o servidor.');
