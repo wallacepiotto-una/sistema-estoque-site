@@ -1,33 +1,62 @@
 const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
+  validarSessao();
   carregarUsuario();
   carregarIngredientes();
+  configurarMenuLateral();
 
   // Escutar o envio do formulário de cadastro
   const form = document.getElementById('form-cadastrar');
   if (form) form.addEventListener('submit', cadastrarIngrediente);
+});
 
-  // Navegação: Botão Estoque no menu lateral
+// 1. Garantir que o utilizador está autenticado
+function validarSessao() {
+  const usuario = localStorage.getItem('usuario');
+  if (!usuario) {
+    window.location.href = 'login.html';
+  }
+}
+
+// 2. Configurar cliques nos botões do Menu Lateral
+function configurarMenuLateral() {
   const btnHome = document.getElementById('btnHome');
+  const btnGerenciar = document.getElementById('btnGerenciar');
+  const btnSair = document.getElementById('btnSair');
+
+  // Botão "Estoque" -> Leva para a página principal de consulta de estoque
   if (btnHome) {
     btnHome.addEventListener('click', () => {
       window.location.href = 'index.html';
     });
   }
 
-  // Escutar o botão Sair
-  const btnSair = document.getElementById('btnSair');
+  // Botão "Gerenciar" -> Permite acesso apenas se for utilizador 'admin'
+  if (btnGerenciar) {
+    btnGerenciar.addEventListener('click', () => {
+      const usuarioLogado = (localStorage.getItem('usuario') || '').toLowerCase();
+
+      if (usuarioLogado === 'admin') {
+        window.location.href = 'gerenciar.html';
+      } else {
+        alert('Acesso Restrito: Apenas o utilizador Admin tem permissão para gerenciar ingredientes.');
+      }
+    });
+  }
+
+  // Botão "Sair" -> Limpa a sessão no navegador e redireciona para o login
   if (btnSair) {
     btnSair.addEventListener('click', (e) => {
       e.preventDefault();
       localStorage.removeItem('usuario');
+      localStorage.clear();
       window.location.href = 'login.html';
     });
   }
-});
+}
 
-// 1. Mostrar o nome de quem logou no canto superior direito
+// 3. Mostrar o nome do utilizador logado
 function carregarUsuario() {
   const usuario = localStorage.getItem('usuario') || 'Admin';
   const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
@@ -37,7 +66,7 @@ function carregarUsuario() {
   }
 }
 
-// 2. Buscar ingredientes do Supabase/Render
+// 4. Buscar e listar ingredientes da API
 async function carregarIngredientes() {
   const tbody = document.getElementById('manageTableBody') || document.querySelector('table tbody');
   if (!tbody) return;
@@ -56,7 +85,6 @@ async function carregarIngredientes() {
       return;
     }
 
-    // Exibe a quantidade acompanhada da unidade
     tbody.innerHTML = ingredientes.map(item => `
       <tr>
         <td>#${item.id || item.codigo}</td>
@@ -82,7 +110,7 @@ async function carregarIngredientes() {
   }
 }
 
-// 3. Cadastrar Novo Ingrediente (POST)
+// 5. Cadastrar Novo Ingrediente (POST)
 async function cadastrarIngrediente(e) {
   e.preventDefault();
 
@@ -112,7 +140,7 @@ async function cadastrarIngrediente(e) {
   }
 }
 
-// 4. Excluir Ingrediente (DELETE)
+// 6. Excluir Ingrediente (DELETE)
 async function deletarIngrediente(id) {
   if (!confirm('Tem certeza que deseja remover este ingrediente do sistema?')) return;
 
