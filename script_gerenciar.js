@@ -1,20 +1,5 @@
 const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
 
-// 1. Função blindada para atualizar o nome do usuário
-function carregarUsuario() {
-  const usuario = localStorage.getItem('usuario') || 'Admin';
-  
-  // Procura por qualquer um dos IDs possíveis
-  const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
-  
-  if (elementoUser) {
-    elementoUser.textContent = usuario;
-  }
-}
-
-// Executa imediatamente e também no evento de carregamento do DOM
-carregarUsuario();
-
 document.addEventListener('DOMContentLoaded', () => {
   carregarUsuario();
   carregarIngredientes();
@@ -23,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-cadastrar');
   if (form) form.addEventListener('submit', cadastrarIngrediente);
 
-  // Navegação: Botão Estoque
+  // Navegação: Botão Estoque no menu lateral
   const btnHome = document.getElementById('btnHome');
   if (btnHome) {
     btnHome.addEventListener('click', () => {
@@ -42,42 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
-
-
-const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
-
-document.addEventListener('DOMContentLoaded', () => {
-  carregarUsuario();
-  carregarIngredientes();
-
-  // Escutar o envio do formulário de cadastro
-  const form = document.getElementById('form-cadastrar');
-  if (form) form.addEventListener('submit', cadastrarIngrediente);
-
-  // Navegação: Botão Estoque no menu lateral
-  const btnHome = document.getElementById('btnHome');
-  if (btnHome) {
-    btnHome.addEventListener('click', () => {
-      window.location.href = 'index.html'; // Redireciona para a tela de estoque
-    });
-  }
-
-  // Escutar o botão Sair
-  const btnSair = document.getElementById('btnSair');
-  if (btnSair) {
-    btnSair.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('usuario');
-      window.location.href = 'login.html';
-    });
-  }
-});
-
 // 1. Mostrar o nome de quem logou no canto superior direito
 function carregarUsuario() {
   const usuario = localStorage.getItem('usuario') || 'Admin';
-  const elementoUser = document.getElementById('nomeFuncionario');
+  const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
   
   if (elementoUser) {
     elementoUser.textContent = usuario;
@@ -103,7 +56,7 @@ async function carregarIngredientes() {
       return;
     }
 
-    // Exibe a quantidade acompanhada da unidade (ex: 5 kg, 500 g, 2 L)
+    // Exibe a quantidade acompanhada da unidade
     tbody.innerHTML = ingredientes.map(item => `
       <tr>
         <td>#${item.id || item.codigo}</td>
@@ -150,7 +103,7 @@ async function cadastrarIngrediente(e) {
 
     if (response.ok) {
       document.getElementById('form-cadastrar').reset();
-      carregarIngredientes(); // Atualiza a tabela imediatamente
+      carregarIngredientes();
     } else {
       alert('Erro ao cadastrar ingrediente.');
     }
@@ -169,7 +122,7 @@ async function deletarIngrediente(id) {
     });
 
     if (response.ok) {
-      carregarIngredientes(); // Recarrega a tabela após excluir
+      carregarIngredientes();
     } else {
       alert('Erro ao excluir ingrediente.');
     }
