@@ -539,3 +539,80 @@ tbody td:last-child::after {
     }
 }
 }
+
+/* Cartão Branco de Cadastro */
+.card-formulario {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  color: #333333;
+}
+
+.card-formulario h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #8b0000; /* Tom vermelho do tema Gorita */
+  margin-bottom: 18px;
+}
+
+/* Organização dos Campos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  padding: 10px 14px;
+  border: 1.5px solid #dddddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #f5b025; /* Amarelo ouro Gorita */
+}
+
+/* Disposição em Linhas */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-row-min-max {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Botão Adicionar */
+.btn-adicionar {
+  background-color: #f5b025;
+  color: #8b0000;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s, transform 0.1s;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-adicionar:hover {
+  background-color: #e09f19;
+  transform: translateY(-1px);
+}
