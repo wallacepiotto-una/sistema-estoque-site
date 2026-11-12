@@ -1,12 +1,10 @@
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    //IDs correspondentes ao seu login.html (inputId e inputSenha)
     const inputLogin = document.getElementById('inputId');
     const inputSenha = document.getElementById('inputSenha');
     const errorMessage = document.getElementById('errorMessage');
 
-    // Oculta a mensagem de erro ao tentar novamente
     if (errorMessage) {
         errorMessage.style.display = 'none';
     }
@@ -29,13 +27,18 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const data = await response.json();
 
         if (response.ok) {
-            // Salva os dados do usuário no localStorage (incluindo se é admin)
-            localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+            // Extrai o nome do usuário (trata objeto ou string)
+            const nomeFinal = (data.usuario && typeof data.usuario === 'object') 
+                ? (data.usuario.login || data.usuario.nome || loginValue) 
+                : (data.usuario || loginValue);
+
+            // Grava nas duas chaves para garantir compatibilidade em qualquer tela
+            localStorage.setItem('usuario', nomeFinal);
+            localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario || { login: nomeFinal }));
             
-            // Redireciona para a página de gerenciamento do estoque
+            // Redireciona para a página de gerenciamento
             window.location.href = 'gerenciar.html';
         } else {
-            // Exibe mensagem no parágrafo de erro do HTML ou via alert
             if (errorMessage) {
                 errorMessage.textContent = data.error || 'ID ou senha incorretos';
                 errorMessage.style.display = 'block';
