@@ -14,24 +14,36 @@
     </header>
 
     <!-- Formulário para Adicionar Ingrediente -->
-    <div class="form-container">
-        <h2>Cadastrar Novo Ingrediente</h2>
-        <form id="addIngredientForm" class="grid-form">
-            <div class="input-field">
-                <input type="text" id="inputNmIngrediente" placeholder="Nome do Ingrediente" required>
-            </div>
-            <div class="input-field">
-                <input type="number" id="inputQntdAtual" placeholder="Quantidade Inicial" min="0" required>
-            </div>
-            <div class="input-field">
-                <input type="number" id="inputQntdMinima" placeholder="Qtd. Mínima (Alerta)" min="0" value="5" required>
-            </div>
-            <div class="input-field">
-                <input type="number" id="inputQntdMaxima" placeholder="Qtd. Máxima" min="0" value="100" required>
-            </div>
-            <button type="submit" class="btn-primary">+ Adicionar Ingrediente</button>
-        </form>
+    
+<div class="card-formulario">
+  <h2>Cadastrar Novo Ingrediente</h2>
+  <form id="form-cadastrar">
+    <div class="form-group">
+      <label for="nome">Nome do Ingrediente</label>
+      <input type="text" id="nome" placeholder="Ex: Farinha de Trigo" required>
     </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="quantidade">Quantidade Inicial</label>
+        <input type="number" id="quantidade" placeholder="0" required min="0">
+      </div>
+      
+      <div class="form-row-min-max">
+        <div class="form-group">
+          <label for="min">Mínimo</label>
+          <input type="number" id="min" placeholder="0" required min="0">
+        </div>
+        <div class="form-group">
+          <label for="max">Máximo</label>
+          <input type="number" id="max" placeholder="100" required min="0">
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-adicionar">+ Adicionar Ingrediente</button>
+  </form>
+</div>
 
     <!-- Tabela para Listar e Remover Ingredientes -->
     <div id="Tabelas" style="margin-top: 30px;">
