@@ -1,72 +1,43 @@
-// script_gerenciar.js
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Verifica se o usuário está logado
-    const usuarioJSON = localStorage.getItem('usuarioLogado');
-    if (!usuarioJSON) {
-        window.location.href = 'login.html';
-        return;
-    }
-
-    const usuario = JSON.parse(usuarioJSON);
-
-    // 2. Oculta botões restritos caso NÃO seja Admin
-    if (!usuario.isAdmin) {
-        const botoesAdmin = document.querySelectorAll('.apenas-admin');
-        botoesAdmin.forEach(btn => btn.style.display = 'none');
-    }
-
-    // Carregar estoque
-    carregarEstoque();
-});
-
-// Exemplo de verificação do estoque mínimo para alertas
-function verificarAlertasEstoque(ingredientes) {
-    const containerAlertas = document.getElementById('alertas-estoque');
-    if (!containerAlertas) return;
-
-    containerAlertas.innerHTML = '';
-    
-    ingredientes.forEach(item => {
-        if (Number(item.qntd_atual) <= Number(item.qntd_minima)) {
-            const alerta = document.createElement('div');
-            alerta.className = 'alerta-item';
-            alerta.innerHTML = `⚠️ <strong>ALERTA DE ESTOQUE BAÍXO:</strong> ${item.nm_ingrediente} está com ${item.qntd_atual} un (Mínimo: ${item.qntd_minima})`;
-            containerAlertas.appendChild(alerta);
-        }
-    });
-}
-
 const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
   carregarUsuario();
   carregarIngredientes();
+
+  // Escutar o envio do formulário de cadastro
+  const form = document.getElementById('form-cadastrar');
+  if (form) form.addEventListener('submit', cadastrarIngrediente);
+
+  // Escutar o botão Sair
+  const btnSair = document.querySelector('.btn-sair') || document.getElementById('btn-sair');
+  if (btnSair) {
+    btnSair.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('usuario');
+      window.location.href = 'login.html';
+    });
+  }
 });
 
-// 1. Atualizar nome no Header (substitui "Carregando...")
+// 1. Mostrar o nome de quem logou no topo
 function carregarUsuario() {
-  const usuarioLogado = localStorage.getItem('usuario') || 'Admin';
-  const elementoUser = document.querySelector('.user-profile span, #nome-usuario');
+  const usuario = localStorage.getItem('usuario') || 'Admin';
+  const elementoUser = document.getElementById('nome-usuario');
   if (elementoUser) {
-    elementoUser.textContent = `👤 ${usuarioLogado}`;
+    elementoUser.textContent = usuario;
   }
 }
 
-// 2. Procurar ingredientes no Backend e preencher a tabela
+// 2. Buscar ingredientes do Supabase/Render
 async function carregarIngredientes() {
-  const tbody = document.querySelector('table tbody, #tabela-ingredientes');
+  const tbody = document.querySelector('table tbody');
   if (!tbody) return;
 
   try {
     const response = await fetch(`${API_URL}/ingredientes`);
-    
-    if (!response.ok) {
-      throw new Error('Falha ao procurar ingredientes');
-    }
-
     const ingredientes = await response.json();
 
-    if (ingredientes.length === 0) {
+    if (!response.ok || !Array.isArray(ingredientes) || ingredientes.length === 0) {
       tbody.innerHTML = `
         <tr>
           <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
@@ -76,14 +47,15 @@ async function carregarIngredientes() {
       return;
     }
 
+    // Exibe a quantidade acompanhada da unidade (ex: 5 kg, 500 g, 2 L)
     tbody.innerHTML = ingredientes.map(item => `
       <tr>
         <td>#${item.id || item.codigo}</td>
         <td><strong>${item.nome}</strong></td>
-        <td>${item.quantidade}</td>
-        <td>${item.minimo} / ${item.maximo}</td>
+        <td>${item.quantidade} ${item.unidade || 'un'}</td>
+        <td>${item.minimo} / ${item.maximo} ${item.unidade || 'un'}</td>
         <td>
-          <button onclick="deletarIngrediente(${item.id})" style="border:none; background:none; cursor:pointer; color:red;">
+          <button onclick="deletarIngrediente(${item.id})" style="border:none; background:none; cursor:pointer; font-size:1.1rem;" title="Excluir">
             🗑️
           </button>
         </td>
@@ -91,12 +63,42 @@ async function carregarIngredientes() {
     `).join('');
 
   } catch (error) {
-    console.error('Erro ao carregar tabela:', error);
+    console.error('Erro:', error);
     tbody.innerHTML = `
       <tr>
         <td colspan="5" style="text-align: center; color: red; padding: 20px;">
-          Erro ao carregar lista de ingredientes.
+          Erro ao conectar com o servidor.
         </td>
       </tr>`;
+  }
+}
+
+// 3. Cadastrar Novo Ingrediente (POST)
+async function cadastrarIngrediente(e) {
+  e.preventDefault();
+
+  const novoItem = {
+    nome: document.getElementById('nome').value,
+    unidade: document.getElementById('unidade').value,
+    quantidade: parseFloat(document.getElementById('quantidade').value),
+    minimo: parseFloat(document.getElementById('min').value),
+    maximo: parseFloat(document.getElementById('max').value)
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/ingredientes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoItem)
+    });
+
+    if (response.ok) {
+      document.getElementById('form-cadastrar').reset();
+      carregarIngredientes(); // Atualiza a tabela imediatamente
+    } else {
+      alert('Erro ao cadastrar ingrediente.');
+    }
+  } catch (error) {
+    alert('Erro de conexão com o servidor.');
   }
 }
