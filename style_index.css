@@ -616,3 +616,17 @@ tbody td:last-child::after {
   background-color: #e09f19;
   transform: translateY(-1px);
 }
+
+.form-group select {
+  padding: 10px 14px;
+  border: 1.5px solid #dddddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  border-color: #f5b025;
+}
