@@ -9,7 +9,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         errorMessage.style.display = 'none';
     }
 
-    const loginValue = inputLogin.value;
+    const loginValue = inputLogin.value.trim();
     const senhaValue = inputSenha.value;
 
     try {
@@ -27,17 +27,16 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const data = await response.json();
 
         if (response.ok) {
-            // Extrai o nome do usuário (trata objeto ou string)
-            const nomeFinal = (data.usuario && typeof data.usuario === 'object') 
-                ? (data.usuario.login || data.usuario.nome || loginValue) 
-                : (data.usuario || loginValue);
+            // Garante um nome válido mesmo se o backend retornar formatos diferentes
+            const nomeFinal = (data.usuario && typeof data.usuario === 'object')
+                ? (data.usuario.login || data.usuario.nome || loginValue)
+                : (typeof data.usuario === 'string' && data.usuario ? data.usuario : loginValue);
 
-            // Grava nas duas chaves para garantir compatibilidade em qualquer tela
             localStorage.setItem('usuario', nomeFinal);
-            localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario || { login: nomeFinal }));
+            localStorage.setItem('usuarioLogado', JSON.stringify({ login: nomeFinal }));
             
-            // Redireciona para a página de gerenciamento
-            window.location.href = 'gerenciar.html';
+            // Passa o usuário na URL como backup contra bloqueios de cache/storage
+            window.location.href = `gerenciar.html?u=${encodeURIComponent(nomeFinal)}`;
         } else {
             if (errorMessage) {
                 errorMessage.textContent = data.error || 'ID ou senha incorretos';
