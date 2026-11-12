@@ -1,5 +1,52 @@
 const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
 
+// 1. Função blindada para atualizar o nome do usuário
+function carregarUsuario() {
+  const usuario = localStorage.getItem('usuario') || 'Admin';
+  
+  // Procura por qualquer um dos IDs possíveis
+  const elementoUser = document.getElementById('nomeFuncionario') || document.getElementById('nome-usuario');
+  
+  if (elementoUser) {
+    elementoUser.textContent = usuario;
+  }
+}
+
+// Executa imediatamente e também no evento de carregamento do DOM
+carregarUsuario();
+
+document.addEventListener('DOMContentLoaded', () => {
+  carregarUsuario();
+  carregarIngredientes();
+
+  // Escutar o envio do formulário de cadastro
+  const form = document.getElementById('form-cadastrar');
+  if (form) form.addEventListener('submit', cadastrarIngrediente);
+
+  // Navegação: Botão Estoque
+  const btnHome = document.getElementById('btnHome');
+  if (btnHome) {
+    btnHome.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  }
+
+  // Escutar o botão Sair
+  const btnSair = document.getElementById('btnSair');
+  if (btnSair) {
+    btnSair.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('usuario');
+      window.location.href = 'login.html';
+    });
+  }
+});
+
+
+
+
+const API_URL = 'https://sistema-estoque-api-54tf.onrender.com';
+
 document.addEventListener('DOMContentLoaded', () => {
   carregarUsuario();
   carregarIngredientes();
