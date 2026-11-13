@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Se não estiver logado, manda para a tela de login
     if (!localStorage.getItem('userName')) {
         window.location.href = 'login.html';
         return;
     }
 
     const MINIMUM_STOCK = 5;
+    const NOMES_UNIDADES = {
+        kg: 'Kilograma (kg)',
+        g: 'Grama (g)',
+        L: 'Litros (L)',
+        un: 'Unidade (un)'
+    };
+
     let listaIngredientes = [];
 
     const btnHome = document.getElementById('btnHome');
@@ -117,8 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        const rotuloUnidade = NOMES_UNIDADES[item.unidade] || item.unidade || 'Unidade (un)';
         const tdUnidade = document.createElement('td');
-        tdUnidade.textContent = `un. (Mín: ${item.qntd_minima ?? MINIMUM_STOCK})`;
+        tdUnidade.textContent = `${rotuloUnidade} • Mín: ${item.qntd_minima ?? MINIMUM_STOCK}`;
 
         tr.appendChild(tdNome);
         tr.appendChild(tdQtd);
