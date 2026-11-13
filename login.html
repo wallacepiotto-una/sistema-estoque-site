@@ -22,7 +22,10 @@
         </div>
         <div class="formGroup">
             <label>Senha:</label>
-            <input type="password" id="inputSenha" placeholder="Senha" name="senha" required>
+            <div class="senha-wrapper">
+                <input type="password" id="inputSenha" placeholder="Senha" name="senha" required>
+                <button type="button" id="btnOlho" class="btn-olho" aria-label="Mostrar senha"></button>
+            </div>
         </div>
         <div class="formGroup">
             <button type="submit">Entrar</button>
@@ -31,8 +34,7 @@
     </form>
 
     <!-- Link para o arquivo JavaScript -->
+    <script src="config.js"></script>
     <script src="script_login.js"></script>
 </body>
 </html>
-
-<script src="script_login.js?v=3"></script>
