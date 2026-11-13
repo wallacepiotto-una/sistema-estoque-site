@@ -13,51 +13,23 @@
         <p>Adicione novos ingredientes ou remova itens obsoletos do sistema</p>
     </header>
 
-    <!-- Nome do Usuário (Fixado no canto superior direito pelo CSS) -->
-    <div class="funcionario">
-        <p id="nomeFuncionario">Carregando...</p>
-    </div>
-
     <!-- Formulário para Adicionar Ingrediente -->
-    <div class="card-formulario">
+    <div class="form-container">
         <h2>Cadastrar Novo Ingrediente</h2>
-        <form id="form-cadastrar">
-            <div class="form-row">
-                <div class="form-group" style="flex: 2;">
-                    <label for="nome">Nome do Ingrediente</label>
-                    <input type="text" id="nome" placeholder="Ex: Farinha de Trigo" required>
-                </div>
-                
-                <div class="form-group" style="flex: 1;">
-                    <label for="unidade">Unidade de Medida</label>
-                    <select id="unidade" required>
-                        <option value="kg">Quilogramas (kg)</option>
-                        <option value="g">Gramas (g)</option>
-                        <option value="L">Litros (L)</option>
-                        <option value="ml">Mililitros (ml)</option>
-                        <option value="un">Unidade (un)</option>
-                    </select>
-                </div>
+        <form id="addIngredientForm" class="grid-form">
+            <div class="input-field">
+                <input type="text" id="inputNmIngrediente" placeholder="Nome do Ingrediente" maxlength="30" required>
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="quantidade">Quantidade Inicial</label>
-                    <input type="number" id="quantidade" placeholder="0" step="0.01" required min="0">
-                </div>
-                
-                <div class="form-group">
-                    <label for="min">Estoque Mínimo</label>
-                    <input type="number" id="min" placeholder="0" step="0.01" required min="0">
-                </div>
-
-                <div class="form-group">
-                    <label for="max">Estoque Máximo</label>
-                    <input type="number" id="max" placeholder="100" step="0.01" required min="0">
-                </div>
+            <div class="input-field">
+                <input type="text" inputmode="decimal" id="inputQntdAtual" placeholder="Quantidade Inicial" required>
             </div>
-
-            <button type="submit" class="btn-adicionar">+ Adicionar Ingrediente</button>
+            <div class="input-field">
+                <input type="text" inputmode="decimal" id="inputQntdMinima" placeholder="Qtd. Mínima (Alerta)" value="5" required>
+            </div>
+            <div class="input-field">
+                <input type="text" inputmode="decimal" id="inputQntdMaxima" placeholder="Qtd. Máxima" value="100" required>
+            </div>
+            <button type="submit" class="btn-primary">+ Adicionar Ingrediente</button>
         </form>
     </div>
 
@@ -79,7 +51,6 @@
         </table>
     </div>
 
-    <!-- Menu Lateral -->
     <div class="menu">
         <img src="./Assets/Logo.jpeg" alt="Logo">
         <button id="btnHome">Estoque</button>
@@ -88,8 +59,11 @@
         <h2>Qualidade e sabor <u>em cada detalhe</u></h2>
     </div>
 
-    <script src="script_gerenciar.js"></script>
+    <div class="funcionario">
+        <p id="nomeFuncionario">Carregando...</p>
+    </div>
+
+    <script src="config.js?v=5"></script>
+    <script src="script_gerenciar.js?v=5"></script>
 </body>
 </html>
-
-<script src="script_gerenciar.js?v=3"></script>
