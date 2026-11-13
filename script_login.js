@@ -1,57 +1,58 @@
-document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    // Acorda o servidor do Render em segundo plano assim que a tela de login abre
+    fetch(API_URL).catch(() => {});
 
-    const inputLogin = document.getElementById('inputId');
+    const loginForm = document.getElementById('loginForm');
+    const inputId = document.getElementById('inputId');
     const inputSenha = document.getElementById('inputSenha');
     const errorMessage = document.getElementById('errorMessage');
+    const btnOlho = document.getElementById('btnOlho');
+    const btnEntrar = loginForm.querySelector('button[type="submit"]');
 
-    if (errorMessage) {
+    btnOlho.addEventListener('click', () => {
+        const estavaVisivel = inputSenha.type === 'text';
+        inputSenha.type = estavaVisivel ? 'password' : 'text';
+        btnOlho.classList.toggle('ativo', !estavaVisivel);
+        btnOlho.setAttribute('aria-label', estavaVisivel ? 'Mostrar senha' : 'Ocultar senha');
+    });
+
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
         errorMessage.style.display = 'none';
-    }
 
-    const loginValue = inputLogin.value.trim();
-    const senhaValue = inputSenha.value;
+        const id = inputId.value.trim();
+        const senha = inputSenha.value;
 
-    try {
-        const response = await fetch('https://sistema-estoque-api-54tf.onrender.com/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                login: loginValue, 
-                senha: senhaValue 
-            })
-        });
+        btnEntrar.disabled = true;
+        btnEntrar.textContent = 'Entrando...';
+        const avisoDemora = setTimeout(() => {
+            btnEntrar.textContent = 'Acordando o servidor...';
+        }, 4000);
 
-        const data = await response.json();
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login: id, senha: senha })
+            });
 
-        if (response.ok) {
-            // Garante um nome válido mesmo se o backend retornar formatos diferentes
-            const nomeFinal = (data.usuario && typeof data.usuario === 'object')
-                ? (data.usuario.login || data.usuario.nome || loginValue)
-                : (typeof data.usuario === 'string' && data.usuario ? data.usuario : loginValue);
-
-            localStorage.setItem('usuario', nomeFinal);
-            localStorage.setItem('usuarioLogado', JSON.stringify({ login: nomeFinal }));
-            
-            // Passa o usuário na URL como backup contra bloqueios de cache/storage
-            window.location.href = `gerenciar.html?u=${encodeURIComponent(nomeFinal)}`;
-        } else {
-            if (errorMessage) {
-                errorMessage.textContent = data.error || 'ID ou senha incorretos';
-                errorMessage.style.display = 'block';
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('userName', data.nome);
+                localStorage.setItem('isAdmin', String(data.is_admin === true || data.is_admin === 'true'));
+                window.location.href = 'index.html';
             } else {
-                alert(data.error || 'ID ou senha incorretos');
+                errorMessage.textContent = 'ID ou senha incorretos';
+                errorMessage.style.display = 'block';
             }
-        }
-    } catch (error) {
-        console.error('Erro de conexão:', error);
-        if (errorMessage) {
-            errorMessage.textContent = 'Erro ao conectar com o servidor. Aguarde alguns segundos e tente novamente.';
+        } catch (error) {
+            console.error('Erro de conexão com a API:', error);
+            errorMessage.textContent = 'Não foi possível conectar ao servidor. Tente novamente.';
             errorMessage.style.display = 'block';
-        } else {
-            alert('Erro ao conectar com o servidor.');
+        } finally {
+            clearTimeout(avisoDemora);
+            btnEntrar.disabled = false;
+            btnEntrar.textContent = 'Entrar';
         }
-    }
+    });
 });
