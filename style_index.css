@@ -482,12 +482,13 @@ tbody td:last-child::after {
 
 .grid-form {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
     gap: 15px;
     align-items: center;
 }
 
-.input-field input {
+.input-field input,
+.input-field select {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #ccc;
@@ -495,9 +496,12 @@ tbody td:last-child::after {
     font-family: 'Nunito', sans-serif;
     font-size: 1rem;
     outline: none;
+    background-color: white;
+    color: #333;
 }
 
-.input-field input:focus {
+.input-field input:focus,
+.input-field select:focus {
     border-color: #fbc02d;
 }
 
