@@ -36,12 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             manageTableBody.innerHTML = '';
             dados.forEach(item => {
+                const un = item.unidade || 'un';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${item.cod_ingrediente}</td>
                     <td>${item.nm_ingrediente}</td>
-                    <td>${item.qntd_atual}</td>
-                    <td>${item.qntd_minima} / ${item.qntd_maxima}</td>
+                    <td>${item.qntd_atual} ${un}</td>
+                    <td>${item.qntd_minima} / ${item.qntd_maxima} ${un}</td>
                     <td>
                         <button class="btn-delete" data-id="${item.cod_ingrediente}" data-nome="${item.nm_ingrediente}">
                             Excluir
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const novoIngrediente = {
             nm_ingrediente: document.getElementById('inputNmIngrediente').value.trim(),
+            unidade: document.getElementById('inputUnidade').value,
             qntd_atual: lerNumero('inputQntdAtual'),
             qntd_minima: lerNumero('inputQntdMinima'),
             qntd_maxima: lerNumero('inputQntdMaxima')
