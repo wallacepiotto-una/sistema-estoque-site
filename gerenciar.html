@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style_index.css">
+    <link rel="stylesheet" href="style_index.css?v=2">
     <title>Salgaderia Gorita - Gerenciar Ingredientes</title>
 </head>
 <body>
@@ -19,6 +19,14 @@
         <form id="addIngredientForm" class="grid-form">
             <div class="input-field">
                 <input type="text" id="inputNmIngrediente" placeholder="Nome do Ingrediente" maxlength="30" required>
+            </div>
+            <div class="input-field">
+                <select id="inputUnidade" required>
+                    <option value="un">Unidade (un)</option>
+                    <option value="kg">Kilograma (kg)</option>
+                    <option value="g">Grama (g)</option>
+                    <option value="L">Litros (L)</option>
+                </select>
             </div>
             <div class="input-field">
                 <input type="text" inputmode="decimal" id="inputQntdAtual" placeholder="Quantidade Inicial" required>
@@ -63,7 +71,7 @@
         <p id="nomeFuncionario">Carregando...</p>
     </div>
 
-    <script src="config.js?v=5"></script>
-    <script src="script_gerenciar.js?v=5"></script>
+    <script src="config.js?v=6"></script>
+    <script src="script_gerenciar.js?v=6"></script>
 </body>
 </html>
